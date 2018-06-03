@@ -5,11 +5,9 @@ Config::Config()
 
 }
 
-void Config::read(const char* configFilePath)
+void Config::read(const char* configFilePath, Document &doc)
 {
-    Document doc;
     doc.Parse(configFilePath);
-    std::cout << doc["name"].GetString() << std::endl;
 }
 
 

@@ -12,6 +12,8 @@
 #include <stdio.h>
 
 #include <SDL2/SDL.h>
+#include <SDL_image.h>
+
 #include <string>
 #include <stdlib.h>
 #include <time.h>
@@ -23,6 +25,7 @@
 #include "Graph.hpp"
 #include "LTimer.hpp"
 #include "Utility.hpp"
+#include "SpriteSheetRenderer.hpp"
 
 using namespace std;
 
@@ -62,6 +65,8 @@ public:
     void BlinkTile(SDL_Renderer* renderer, SDL_Rect rect, RandomNum* rand);
     
     void addToRenderQueue(SDL_Rect& rect, RGBColor color);
+
+    SDL_Texture* loadTexture(std::string path);
     
     void update();
     

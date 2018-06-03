@@ -7,6 +7,5 @@ class Config
 {
 public: 
     Config();
-    void read(const char* configFilePath);
-
+    void read(const char* configFilePath, Document &doc);
 };

@@ -15,12 +15,17 @@ then
     then
         #cd '../Output/Debug/'
         ../Output/Debug/Engine.out
-        echo "run"
+        echo "running"
     fi
 fi
 
 if [ "$1" == 'run' ];
     then ../Output/Debug/Engine.out
+fi
+
+if [ "$1" == 'clean' ];
+    then cd ../Source/ 
+        make clean
 fi
 
 

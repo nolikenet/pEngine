@@ -10,6 +10,7 @@
 #define Utility_hpp
 
 #include <stdio.h>
+#include <fstream>
 #include <random>
 #include <time.h>
 
@@ -27,5 +28,11 @@ private:
 };
 
 void initialize();
+
+class Parser
+{
+public: 
+    static std::string ParseFile(char* file_path);
+};
 
 #endif /* Utility_hpp */

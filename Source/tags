@@ -21,24 +21,29 @@ CC	makefile	/^CC= g++$/;"	m
 CFLAG	makefile	/^CFLAG= -std=c++14 -Wall -g $/;"	m
 ColorRect	Renderer.cpp	/^ColorRect::ColorRect()$/;"	f	class:ColorRect
 ColorRect	Renderer.cpp	/^ColorRect::ColorRect(SDL_Rect rect, int r, int g, int b, int a)$/;"	f	class:ColorRect
+Config	Utilities/Config.cpp	/^Config::Config()$/;"	f	class:Config
 DrawTile	Renderer.cpp	/^void Renderer::DrawTile(SDL_Rect rect)$/;"	f	class:Renderer
 FRAMES_PER_SECOND	main.cpp	/^const int FRAMES_PER_SECOND = 60;$/;"	v
-FRAMEWORKS	makefile	/^FRAMEWORKS= -F\/Library\/Frameworks -F\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/System\/Library\/Frameworks\/ -framework SDL2 -framework OpenGL -framework GLUT$/;"	m
+FRAMEWORKS	makefile	/^FRAMEWORKS= -F\/Library\/Frameworks -F\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/System\/Library\/Frameworks\/ -framework SDL2 -framework OpenGL -framework GLUT -framework SDL2_image$/;"	m
+GetImagesFromTexture	main.cpp	/^void GetImagesFromTexture()$/;"	f
 Graph	Graph.cpp	/^Graph::Graph(std::vector<std::shared_ptr<MapLocation>>& locations)$/;"	f	class:Graph
-INCLUDES	makefile	/^INCLUDES= -I..\/Libs\/SDL2\/include -I\/usr\/local\/Cellar\/glew\/2.1.0\/include -I\/usr\/local\/Cellar\/glew\/2.1.0\/lib\/ -I\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/System\/Library\/Frameworks\/OpenGL.framework\/Headers$/;"	m
+INCLUDES	makefile	/^INCLUDES= -I..\/Libs\/SDL2\/include -I..\/Libs\/SDL2_image-2.0.3 -I\/usr\/local\/Cellar\/glew\/2.1.0\/include -I\/usr\/local\/Cellar\/glew\/2.1.0\/lib\/ -I\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/System\/Library\/Frameworks\/OpenGL.framework\/Headers -I..\/Libs\/rapidjson\/include$/;"	m
 LTimer	LTimer.cpp	/^LTimer::LTimer() {$/;"	f	class:LTimer
 MapLocation	MapLocation.cpp	/^MapLocation::MapLocation()$/;"	f	class:MapLocation
 MapLocation	MapLocation.cpp	/^MapLocation::MapLocation(NodePosition pos, SDL_Rect rect)$/;"	f	class:MapLocation
 NodePosition	MapLocation.cpp	/^NodePosition::NodePosition()$/;"	f	class:NodePosition
 NodePosition	MapLocation.cpp	/^NodePosition::NodePosition(int x, int y)$/;"	f	class:NodePosition
 RandomNum	Utility.cpp	/^RandomNum::RandomNum()$/;"	f	class:RandomNum
+RenderFrame	Utilities/SpriteSheetRenderer.cpp	/^void SpriteSheetRenderer::RenderFrame(SDL_Texture* texture, const SDL_Rect* src_rect, const SDL_Rect* dest_rect)$/;"	f	class:SpriteSheetRenderer
+RenderSpriteSheet	Utilities/SpriteSheetRenderer.cpp	/^bool SpriteSheetRenderer::RenderSpriteSheet(SDL_Texture* texture, char* data_path)$/;"	f	class:SpriteSheetRenderer
 RenderTileMap	Renderer.cpp	/^void Renderer::RenderTileMap(vector<shared_ptr<MapLocation>>& locations)$/;"	f	class:Renderer
 Renderer	Renderer.cpp	/^Renderer::Renderer()$/;"	f	class:Renderer
 Renderer	Renderer.cpp	/^Renderer::Renderer(SDL_Renderer* renderer)$/;"	f	class:Renderer
 SCREEN_HEIGHT	main.cpp	/^const int SCREEN_HEIGHT = 720;$/;"	v
 SCREEN_WIDTH	main.cpp	/^const int SCREEN_WIDTH = 1280;$/;"	v
-SOURCE	makefile	/^SOURCE= main.cpp AStarSearch.cpp Graph.cpp LTimer.cpp Renderer.cpp Utility.cpp MapLocation.cpp .\/Math\/tinyc2.c$/;"	m
+SOURCE	makefile	/^SOURCE= $(wildcard *.cpp) $(wildcard *\/*.cpp) $/;"	m
 ShowNeighboors	Renderer.cpp	/^void Renderer::ShowNeighboors(vector<Vertex*>& nodeNeighbors)$/;"	f	class:Renderer
+SpriteSheetRenderer	Utilities/SpriteSheetRenderer.cpp	/^SpriteSheetRenderer::SpriteSheetRenderer(SDL_Renderer* renderer)$/;"	f	class:SpriteSheetRenderer
 TINYC2_H	Math/tinyc2.h	/^#define TINYC2_H$/;"	d
 Vector2_hpp	Math/Vector2.hpp	/^#define Vector2_hpp$/;"	d
 Vertex	Graph.cpp	/^Vertex::Vertex(MapLocation location)$/;"	f	class:Vertex
@@ -194,6 +199,7 @@ index_grid	Graph.cpp	/^void Graph::index_grid()$/;"	f	class:Graph
 initialize	Utility.cpp	/^void RandomNum::initialize()$/;"	f	class:RandomNum
 isPaused	LTimer.cpp	/^bool LTimer::isPaused() { \/\/Timer is running and paused$/;"	f	class:LTimer
 isStarted	LTimer.cpp	/^bool LTimer::isStarted() {$/;"	f	class:LTimer
+loadTexture	Renderer.cpp	/^SDL_Texture* Renderer::loadTexture( std::string path )$/;"	f	class:Renderer
 main	main.cpp	/^int main( int argc, char* args[] )$/;"	f
 max	Math/tinyc2.h	/^    c2v max;$/;"	m	struct:__anon10
 min	Math/tinyc2.h	/^    c2v min;$/;"	m	struct:__anon10
@@ -206,12 +212,14 @@ p	Math/tinyc2.c	/^    c2v p;$/;"	m	struct:__anon2	file:
 p	Math/tinyc2.h	/^    c2v p;   \/\/ position$/;"	m	struct:__anon13
 p	Math/tinyc2.h	/^    c2v p;$/;"	m	struct:__anon7
 p	Math/tinyc2.h	/^    c2v p;$/;"	m	struct:__anon9
+parseFile	Utilities/SpriteSheetRenderer.cpp	/^Document* SpriteSheetRenderer::parseFile(char* file_path)$/;"	f	class:SpriteSheetRenderer
 pause	LTimer.cpp	/^void LTimer::pause() { \/\/If the timer is running and isn't already paused$/;"	f	class:LTimer
 quit	main.cpp	/^bool quit = false;$/;"	v
 r	Math/tinyc2.h	/^    c2r r;$/;"	m	struct:__anon7
 r	Math/tinyc2.h	/^    float r;$/;"	m	struct:__anon11
 r	Math/tinyc2.h	/^    float r;$/;"	m	struct:__anon9
 radius	Math/tinyc2.c	/^    float radius;$/;"	m	struct:__anon1	file:
+read	Utilities/Config.cpp	/^void Config::read(const char* configFilePath)$/;"	f	class:Config
 s	Math/tinyc2.h	/^    float s;$/;"	m	struct:__anon5
 sA	Math/tinyc2.c	/^    c2v sA;$/;"	m	struct:__anon2	file:
 sB	Math/tinyc2.c	/^    c2v sB;$/;"	m	struct:__anon2	file:

@@ -6,15 +6,18 @@
 
 #include <SDL2/SDL_opengl.h>
 
+#include <assert.h>
 #include <stdio.h>
 #include <iostream>
 #include <vector>
 #include <memory>
+#include <fstream>
 
 #include "../Inc/AStarSearch.hpp"
 #include "../Inc/Renderer.hpp"
 #include "../Inc/Utility.hpp"
 #include "../Inc/Config.hpp"
+#include "./Utilities/cJSON.h"
 
 
 //Screen dimension constants
@@ -69,30 +72,30 @@ GLint gVertexPos2DLocation = -1;
 GLuint gVBO = 0;
 GLuint gIBO = 0;
 
-void GetImagesFromTexture()
-{
-
-}
-
 
 int main( int argc, char* args[] )
 {
-
     auto cfg = new Config();
-    auto f = fopen("Utilities/config.json", "r");
+    ifstream file;
+    file.open("./Utilities/config.json");
+    std::string temp;
+    std::string contents;
+    while(std::getline(file, temp))
+    {
+        contents += temp;
+    }
+
+    //std::cout << "Temp string is "<< contents << std::endl;
+    file.close();
+            
+    Document doc;
+    cfg->read(contents.c_str(), doc);
+    assert(doc.IsObject());
+    assert(doc.HasMember("name"));
+    assert(doc["job"].IsString());
 
 
-    // Determine file size
-    fseek(f, 0, SEEK_END);
-    size_t size = ftell(f);
 
-    char* content = new char[size];
-
-    rewind(f);
-    fread(content, sizeof(char), size, f);
-    cfg->read(content);
-
-    free(content);
 	//The window we'll be rendering to
 	SDL_Window* window = NULL;
 
@@ -142,10 +145,27 @@ int main( int argc, char* args[] )
             Renderer* renderer = new Renderer(gRenderer);
 
            // generate_rects_grid(grid_locations);
-            generate_tilemap(gRenderer);
+            //generate_tilemap(gRenderer);
+
+            auto text = renderer->loadTexture("../Assets/Images/astro_atlas.png");
+
+            auto sSheet = new SpriteSheet(gRenderer);
+            auto texture = renderer->loadTexture("../Assets/Images/astro_atlas.png");
+            //std::vector<std::string> names = {"astro_run_frame1.png", "astro_run_frame2.png", "astro_run_frame3.png"};
+            sSheet->Render(text, Parser::ParseFile("../Assets/Images/astro_atlas.json"));
+
+            SDL_Rect src;
+            src.x = 133;
+            src.y = 1;
+            src.w = 36;
+            src.h = 60;
+
+            SDL_Rect dest = { 100, 100, 36, 60 };
+
+            sSheet->RenderFrame(texture, &src, &dest);
 
           //  Graph* graph = new Graph(grid_locations);
-            std::unique_ptr<Graph> graph (new Graph(grid_locations));
+            //std::unique_ptr<Graph> graph (new Graph(grid_locations));
 
             float vertices[] = {
                 -0.5f, -0.5f, 0.0f,
@@ -158,7 +178,6 @@ int main( int argc, char* args[] )
             glBindBuffer(GL_ARRAY_BUFFER, gVBO);
             glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-            
             const GLchar* vertexShaderSource[] =
             {
                 " #version 150 core layout (location = 0) in vec3 aPos; void main() { gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0); } "
@@ -274,7 +293,7 @@ int main( int argc, char* args[] )
                 delta_move.y = 0;
                 move_object(renderer, playerRect, delta_move);
             
-                renderer->update();
+                //renderer->update();
                 SDL_UpdateWindowSurface( window );
                 
                 frame++;
