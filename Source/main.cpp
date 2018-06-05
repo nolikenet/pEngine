@@ -12,6 +12,7 @@
 #include <vector>
 #include <memory>
 #include <fstream>
+#include <thread>
 
 #include "../Inc/AStarSearch.hpp"
 #include "../Inc/Renderer.hpp"
@@ -139,30 +140,16 @@ int main( int argc, char* args[] )
 		}
 		else
 		{
-			//screenSurface = SDL_GetWindowSurface( window );
-
             gRenderer = SDL_CreateRenderer(window, 1, SDL_RENDERER_ACCELERATED);
             Renderer* renderer = new Renderer(gRenderer);
 
-           // generate_rects_grid(grid_locations);
-            //generate_tilemap(gRenderer);
-
             auto text = renderer->loadTexture("../Assets/Images/astro_atlas.png");
 
-            auto sSheet = new SpriteSheet(gRenderer);
+            std::vector<int> seq {1,2,3,4,5,6,7};   
+            auto astroRun = new SpriteSheet(gRenderer, text, Parser::ParseFile("../Assets/Images/astro_atlas.json"), seq, 1.0f);
             auto texture = renderer->loadTexture("../Assets/Images/astro_atlas.png");
-            //std::vector<std::string> names = {"astro_run_frame1.png", "astro_run_frame2.png", "astro_run_frame3.png"};
-            sSheet->Render(text, Parser::ParseFile("../Assets/Images/astro_atlas.json"));
-
-            SDL_Rect src;
-            src.x = 133;
-            src.y = 1;
-            src.w = 36;
-            src.h = 60;
-
-            SDL_Rect dest = { 100, 100, 36, 60 };
-
-            sSheet->RenderFrame(texture, &src, &dest);
+            
+          //  sSheet->RenderFrame(texture, &src, &dest);
 
           //  Graph* graph = new Graph(grid_locations);
             //std::unique_ptr<Graph> graph (new Graph(grid_locations));
@@ -174,9 +161,9 @@ int main( int argc, char* args[] )
             };
             
             //openGL
-            glGenBuffers(1, &gVBO);
-            glBindBuffer(GL_ARRAY_BUFFER, gVBO);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+            //glGenBuffers(1, &gVBO);
+            //glBindBuffer(GL_ARRAY_BUFFER, gVBO);
+            //glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
             const GLchar* vertexShaderSource[] =
             {
@@ -223,7 +210,6 @@ int main( int argc, char* args[] )
             {
                 //---fps cap---//
                 if (fps_timer.getTicks() < (1000 / FRAMES_PER_SECOND)) continue;
-                
                 frame_second += fps_timer.getTicks();
                 
                 if (frame >= FRAMES_PER_SECOND && frame_second <= 1000) continue;
@@ -234,7 +220,6 @@ int main( int argc, char* args[] )
                 
                 if (frame_second >= 1000)
                 {
-                    printf("FPS counter %i \n ", frame);
                     frame = 0;
                     frame_second = 0;
                 }
@@ -276,17 +261,18 @@ int main( int argc, char* args[] )
                                 quit = true;
                                 break;
 
+                            case SDLK_r:
+                                astroRun->Render();
+                                break;
+
                             default:
                                 break;
                         }
                     }
-
                 }
                 
                 speed -= 0.05f;
                 if (speed <= 0) speed = 0;
-                
-               // printf("Speed is %f \n ", speed);
                 
                 SDL_Point delta_move;
                 delta_move.x = speed;
@@ -294,8 +280,9 @@ int main( int argc, char* args[] )
                 move_object(renderer, playerRect, delta_move);
             
                 //renderer->update();
-                SDL_UpdateWindowSurface( window );
-                
+                //SDL_UpdateWindowSurface( window );
+                //
+                SDL_RenderPresent(gRenderer);
                 frame++;
             }
             
