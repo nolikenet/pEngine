@@ -12,13 +12,13 @@
 #include <vector>
 #include <memory>
 #include <fstream>
-#include <thread>
 
 #include "../Inc/AStarSearch.hpp"
 #include "../Inc/Renderer.hpp"
 #include "../Inc/Utility.hpp"
 #include "../Inc/Config.hpp"
 #include "./Utilities/cJSON.h"
+#include "./DataStructures/RenderTree.hpp"
 
 
 //Screen dimension constants
@@ -149,6 +149,13 @@ int main( int argc, char* args[] )
             auto astroRun = new SpriteSheet(gRenderer, text, Parser::ParseFile("../Assets/Images/astro_atlas.json"), seq, 1.0f);
             auto texture = renderer->loadTexture("../Assets/Images/astro_atlas.png");
             
+            auto renderTree = new Tree();
+            for (int i = 0; i < 20; i++)
+            {
+                auto node = std::make_shared<TreeNode>(i);
+                renderTree->Insert(node);
+            }
+            renderTree->Render(renderTree->rootNode);
           //  sSheet->RenderFrame(texture, &src, &dest);
 
           //  Graph* graph = new Graph(grid_locations);
@@ -262,7 +269,7 @@ int main( int argc, char* args[] )
                                 break;
 
                             case SDLK_r:
-                                astroRun->Render();
+                               // astroRun->Render();
                                 break;
 
                             default:
